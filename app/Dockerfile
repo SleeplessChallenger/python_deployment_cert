@@ -2,10 +2,7 @@ FROM python:3
 
 WORKDIR /app
 
-ADD . .
+ADD . /app
 RUN pip install -r requirements.txt
 
-COPY . .
-
-ENTRYPOINT ["python3"]
-CMD ["wsgi.py"]
+CMD ["uwsgi", "app.ini"]
