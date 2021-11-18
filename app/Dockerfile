@@ -2,7 +2,13 @@ FROM python:3
 
 WORKDIR /app
 
-ADD . /app
+EXPOSE 80
+
+ADD . .
+
 RUN pip install -r requirements.txt
 
-CMD ["uwsgi", "app.ini"]
+COPY . .
+
+ENTRYPOINT ["python3"]
+CMD ["wsgi.py"]
