@@ -3,7 +3,7 @@
 - There are 2 types: public and private keys to create SSL certificate<br>
 	and enable https (http over TLS)
 - You can check in more detail my notes. Look at **22** :<br>
-	<a href="git@github.com:SleeplessChallenger/SystemsExpert.git">Here</a>
+	<a href="https://github.com/SleeplessChallenger/SystemsExpert.git">Here</a>
 
 <h3>Ways to generate keys</h3>
 
@@ -15,6 +15,8 @@
 2. By hands: `app.run(ssl_context=('cert.pem', 'key.pem'))`. But here we need to generate them:
 	<ul>
 		<li>`openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365`</li>
+		<li>Better: `openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx.key -out nginx.crt` 
+			Note: go into `usr/local/etc/nginx` and then create folder `ssl`. Go into folder and run command</li>
 		<li>Check this link to get better idea: <a href="https://www.digicert.com/kb/ssl-support/openssl-quick-reference-guide.htm">Click</a>
 		<li> cert is public key & key is private key
 
@@ -22,8 +24,11 @@
 
 <h3>And if you want to use NGINX without gunicorn</h3>
 
-- Scheme: we have incoming request on some port and **nginx** will handle/reroute it<br>
-	to **<ins>unexposed</ins>** inner port of the **app**. This app will handle the<br>
+- Scheme: we have incoming request on some port and **nginx** will handle/reroute it to **<ins>unexposed</ins>** inner port of the **app**. This app will handle the<br>
 	endpoint and return answer or error.
 
+<h4>Notes about deployment via Nginx</h4>
 
+- no need to **EXPOSE** in `Dockerfile` if you use `run` with **port**
+- put this **port** from `run` into `nginx.conf/location`
+- in the same `config` file put listen as the `port` exposed to `docker-compose` for **nginx**
