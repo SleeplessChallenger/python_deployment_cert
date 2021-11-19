@@ -15,8 +15,7 @@
 2. By hands: `app.run(ssl_context=('cert.pem', 'key.pem'))`. But here we need to generate them:
 	<ul>
 		<li>`openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365`</li>
-		<li>Better: `openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx.key -out nginx.crt` 
-			Note: go into `usr/local/etc/nginx` and then create folder `ssl`. Go into folder and run command</li>
+		<li>Better: `openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx.key -out nginx.crt`</li>
 		<li>Check this link to get better idea: <a href="https://www.digicert.com/kb/ssl-support/openssl-quick-reference-guide.htm">Click</a>
 		<li> cert is public key & key is private key
 
@@ -32,3 +31,11 @@
 - no need to **EXPOSE** in `Dockerfile` if you use `run` with **port**
 - put this **port** from `run` into `nginx.conf/location`
 - in the same `config` file put listen as the `port` exposed to `docker-compose` for **nginx**
+- in `docker-compose` pay attention to **volumes**. Especially, to `.crt` and `.key`. We create folder inside `nginx` where we put generated certs and in **volumes**<br>
+	we match our ones to the root folder of `nginx`
+
+<h4>Make requests</h4>
+
+- curl -k -X GET https://localhost/health
+- curl -k -X GET https://localhost/
+- curl -k -X POST https://localhost/predict
