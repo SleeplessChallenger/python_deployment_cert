@@ -16,12 +16,14 @@
 	<ul>
 		<li>`openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365`</li>
 		<li>Check this link to get better idea: <a href="https://www.digicert.com/kb/ssl-support/openssl-quick-reference-guide.htm">Click</a>
-		<li> **cert** is **public key** & **key** is **private key**
+		<li> cert is public key & key is private key
 
 3. If you want to use `Gunicorn`: `gunicorn --certfile cert.pem --keyfile key.pem -b 0.0.0.0:8000 wsgi:app`
 
 <h3>And if you want to use NGINX without gunicorn</h3>
 
-
+- Scheme: we have incoming request on some port and **nginx** will handle/reroute it<br>
+	to **<ins>unexposed</ins>** inner port of the **app**. This app will handle the<br>
+	endpoint and return answer or error.
 
 
