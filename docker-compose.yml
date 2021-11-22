@@ -17,5 +17,6 @@ services:
       - "./nginx/code:/var/www/html"
       - "./nginx/certs/nginx.crt:/etc/nginx/ssl/nginx.crt"
       - "./nginx/certs/nginx.key:/etc/nginx/ssl/nginx.key"
+      - "./nginx/certs/nginx.pem:/etc/nginx/ssl/nginx.pem"
     depends_on:
       - app

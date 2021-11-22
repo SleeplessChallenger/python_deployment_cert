@@ -7,15 +7,15 @@
 
 <h3>Ways to generate keys</h3>
 
-<ins>Let's use Flask to for this purpose</ins>
+<ins>Let's use Flask for this purpose</ins>
 
 1. Automcatic way of generating: `app.run(ssl_context="adhoc")` which is not safe.
 	- you also need to isntall: `pip install pyopenssl`
 
 2. By hands: `app.run(ssl_context=('cert.pem', 'key.pem'))`. But here we need to generate them:
 	<ul>
-		<li>`openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365`</li>
-		<li>Better: `openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx.key -out nginx.crt`</li>
+		<li>openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365</li>
+		<li>Better: openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx.key -out nginx.crt</li>
 		<li>Check this link to get better idea: <a href="https://www.digicert.com/kb/ssl-support/openssl-quick-reference-guide.htm">Click</a>
 		<li> cert is public key & key is private key
 
@@ -36,6 +36,28 @@
 
 <h4>Make requests</h4>
 
-- curl -k -X GET https://localhost/health
-- curl -k -X GET https://localhost/
-- curl -k -X POST https://localhost/predict
+- `curl -k -X GET https://localhost/health`
+- `curl -k -X GET https://localhost/`
+- `curl -k -X POST https://localhost/predict`
+
+PS: you don't need to specify **443** as **https** includes it already as **http** by default includes **80**
+
+
+<h4>Ways to prevent response without correct cert</h4>
+
+- There is such a thing: `.pem` file which includes private & public key. It's used to enable verification
+- We want to create a so-called **fence** which won't return response withour certificate
+
+<ol>
+	<li>curl -k --cert  nginx.pem  -X GET https://localhost/ is a request</li>
+		<ul>
+			<li>-k is to remove errors as we use self-signed certs</li>
+			<li>--cert is to include the very certification</li>
+			<li>nginx.pem is that file which includes</li>
+		</ul>
+</ol>
+
+- Links to visit:
+	1. https://smallstep.com/hello-mtls/doc/client/curl
+	2. https://support.f5.com/csp/article/K18050039
+	3. https://habr.com/en/post/213741/
