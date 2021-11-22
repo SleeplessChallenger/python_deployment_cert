@@ -61,3 +61,5 @@ PS: you don't need to specify **443** as **https** includes it already as **http
 	1. https://smallstep.com/hello-mtls/doc/client/curl
 	2. https://support.f5.com/csp/article/K18050039
 	3. https://habr.com/en/post/213741/
+
+PS: if you want to create **CURL** from other directory, use `--cert ./nginx/certs/nginx.pem`
